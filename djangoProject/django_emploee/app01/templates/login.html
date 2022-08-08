@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href={% static 'plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css' %}>
+    <style>
+        .loginst {
+            width: 450px;
+            height: 330px;
+            margin: 200px auto;
+            border: solid #1b6d85 2px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 5px #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <form class="form-horizontal loginst" method="post" novalidate>
+        {% csrf_token %}
+        <div style="text-align: center "><h2>用户登录</h2></div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-8">
+                {{ form.username }}{{ form.username.errors.0 }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-8" style="color: red">
+                {{ form.password }}{{ form.password.errors.0 }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">验证码</label>
+            <div class="row">
+                <div class="col-xs-4">
+                    {{ form.code }}
+                    <span style="color: red;">{{ form.code.errors.0 }}</span>
+                </div>
+                <div class="col-xs-5">
+                    <img id="image_code" src="/image/code/" style="width: 150px;">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-2">
+                <button type="submit" class="btn btn-success">登录</button>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-toolbar">注册</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

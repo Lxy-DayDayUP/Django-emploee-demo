@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h5>
+
+</h5>
+<table border="2"  width="200">
+<thead >
+<tr>
+    用户列表
+</tr>
+<tr>
+    <th>序号</th><th>姓名</th>><th>年龄</th><th>操作</th>
+</tr>
+</thead>
+<tbody>
+    {% for obj in userlista %}
+
+    <tr>
+        <td>{{ obj.id }}</td>
+        <td>{{ obj.name }}</td>
+        <td>{{ obj.age }}</td>
+        <td><a href="/userdelete/?nid={{ obj.id }}">删除</a></td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+<form method="get" action="/useradd/">
+    <input type="submit" value="添加新用户">
+</form>
+<a href="/useradd/">添加新用户</a>
+
+
+</body>
+</html>

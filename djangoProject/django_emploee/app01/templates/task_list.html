@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">新建任务</h3>
+        </div>
+        <div class="panel-body clearfix">
+        <form id="taskform">
+            {% for item in form %}
+            <div class="col-xs-6" style="margin-bottom: 20px ;position: relative">
+                <div>{{ item.label }}</div>
+                <div>{{ item }}<span class ='errors' style="position: absolute;color: red"></span></div>
+            </div>
+            {% endfor %}
+        <div class="col-xs-12"><button id="taskbtn" class="btn btn-success " type="button">提交</button></div>
+        </form>
+        </div>
+    </div>
+
+    <h2>示例1</h2>
+    <form>
+        <input id="btn1" class="btn btn-success" value="Go">
+    </form>
+    <h2>示例2</h2>
+    <form>
+        <input type="text" id="txtuser" placeholder="用户名">
+        <input type="text" id="txtage" placeholder="年龄">
+        <input id="btn2" class="btn btn-success" value="Go">
+    </form>
+    <h2>示例3</h2>
+    <form id="form3">
+        <input type="text" name="name" placeholder="用户名">
+        <input type="text" name="age" placeholder="年龄">
+        <input id="btn3" class="btn btn-success" value="Go">
+    </form>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function () {
+            bindBtnEvent();
+            bindBtn2Event();
+            bindBtn3Event();
+            bindBtnTaskEvent();
+
+        })
+
+        function bindBtnEvent() {
+            $('#btn1').click(function () {
+
+                $.ajax({
+                    url: '/task/add/',
+                    type: 'post',
+                    data: {
+                        n1: 123,
+                        n2: 321
+                    },
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res.n1, res.n2)
+                    }
+                })
+            })
+        }
+
+        function bindBtn2Event() {
+            $('#btn2').click(function () {
+                $.ajax({
+                    url: '/task/add/',
+                    method: 'POST',
+                    data: {
+                        name: $('#txtuser').val(),
+                        age: $('#txtage').val()
+                    },
+                    dataType: 'JSON',
+                    success: function (res) {
+                        console.log(res.name);
+                        console.log(res.age)
+                    }
+                })
+
+            })
+        }
+
+        function bindBtn3Event() {
+            $('#btn3').click(function () {
+                $.ajax({
+                    url: '/task/add/',
+                    method: 'POST',
+                    data: $('#form3').serialize(),
+                    dataType: 'JSON',
+                    success: function (res) {
+                        console.log(res.name);
+                        console.log(res.age)
+                    }
+                })
+
+            })
+        }
+        function bindBtnTaskEvent() {
+            $('#taskbtn').click(function () {
+                $('.errors').empty();  {#先将错误信息清空#}
+                $.ajax({
+                    url: '/task/add/',
+                    method: 'POST',
+                    data: $('#taskform').serialize(),
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.status){
+                            alert('添加成功');
+                        }
+                        else {
+                            $.each(res.errors,function (name,data) {
+                                $('#id_'+name).next().text(data[0])
+                            })
+                        }
+                    }
+                })
+
+            })
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">新增员工</div>
+            <div class="panel-body">
+                <form class="form-inline" method="post" novalidate>
+                    {% csrf_token %}
+                    {% for item in md %}
+                        <div class="form" style="margin-bottom: 10px">
+                            <div class="input-group">
+                                <div class="input-group-addon "  >{{ item.label }}</div>
+                                <div >{{ item }} <span >{{ item.errors.0 }}</span></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

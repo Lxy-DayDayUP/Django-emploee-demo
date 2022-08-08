@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a class="btn btn-primary " href="/user/add/"> 新增员工</a>
+            <a class="btn btn-primary " href="/user/modelform/add/"> 新增员工ModelForm</a>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                部门列表
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>密码</th>
+                    <th>余额</th>
+                    <th>入职时间</th>
+                    <th>性别</th>
+                    <th>部门</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for emp in emplist %}
+                    {% if emp.id == nid %}
+                        <tr>
+                            <th>{{ nid }}</th>
+                            <form class="form-inline" method="post" novalidate>
+                                {% csrf_token %}
+                                {% for item in md %}
+                                    <td>
+                                        {{ item }}<span>{{ item.errors.0 }}</span>
+                                    </td>
+                                {% endfor %}
+                                <td>
+                                    <button type="submit" class="btn btn-success btn-xs">保存</button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th scope="row">{{ emp.id }}</th>
+                            <td>{{ emp.name }}</td>
+                            <td>{{ emp.age }}</td>
+                            <td>{{ emp.password }}</td>
+                            <td>{{ emp.account }}</td>
+                            <td>{{ emp.hiretime|date:'Y-m-d' }}</td>
+                            <td>{{ emp.get_gender_display }}</td>
+                            <td>{{ emp.deptno.dname }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="/user/{{ emp.id }}/edit"> 编辑</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" href="#"> 删除</a>
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}

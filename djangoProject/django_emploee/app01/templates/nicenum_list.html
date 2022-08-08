@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="container clearfix">
+            <a class="btn btn-primary " href="/nicenum/add/">新增靓号</a>
+            <a class="btn btn-primary " href="/nicenum/modelform/add/">新增靓号ModelForm</a>
+            <div style="float: right ;width: 300px">
+                <form method="get">
+                    <div class="input-group ">
+                        <input style="width: 200px" type="text" name="search" value="{{ v }}" class="form-control"
+                               placeholder="查询靓号">
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">靓号列表</div>
+
+                <!-- Table -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>靓号</th>
+                        <th>价格</th>
+                        <th>级别</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for num in nlist %}
+                        <tr>
+                            <th scope="row">{{ num.id }}</th>
+                            <td>{{ num.num }}</td>
+                            <td>{{ num.price }}</td>
+                            <td>{{ num.get_level_display }}</td>
+                            <td>{{ num.get_status_display }}</td>
+                            <td>
+                                <a class="btn btn-xs btn-primary" href="/nicenum/{{ num.id }}/edit">编辑</a>
+                                <a class="btn btn-xs btn-danger" href="/nicenum/{{ num.id }}/delete">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    {% block add %}
+                    {% endblock %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <ul class="pagination">
+                {{ page_li_str }}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

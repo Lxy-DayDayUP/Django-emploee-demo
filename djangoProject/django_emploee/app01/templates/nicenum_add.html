@@ -1,0 +1,18 @@
+{% extends 'nicenum_list.html' %}
+
+{% block add %}
+    <form novalidate method="post">
+        {% csrf_token %}
+        <tr>
+            <th scope="row">{{ newid }}</th>
+            {% for item in form %}
+                <td>{{ item }} <span style="color: red">{{ item.errors.0 }}</span></td>
+
+            {% endfor %}
+            <td>
+                <button type="submit" class="btn-success btn btn-xs">保存</button>
+                <a  class="btn-danger btn btn-xs" href="/nicenum/list">取消</a>
+            </td>
+        </tr>
+    </form>
+{% endblock %}

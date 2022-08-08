@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="container">
+            <a class="btn btn-primary " href="/nicenum/add/">新增靓号</a>
+        </div>
+        <div class="container">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">编辑靓号</div>
+
+                <!-- Table -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>靓号</th>
+                        <th>价格</th>
+                        <th>级别</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for num in numlist %}
+                        {% if num.id == nid %}
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                <tr>
+                                    <th>{{ nid }}</th>
+                                    {% for item in form %}
+                                        <td>{{ item }}<span class="btn-danger">{{ item.errors.0 }}</span></td>
+                                    {% endfor %}
+                                    <td>
+                                        <button class="btn btn-xs btn-success" type="submit"> 保存</button>
+                                        <a class="btn btn-xs btn-danger" href="/nicenum/list/"> 取消</a>
+                                    </td>
+                                </tr>
+                            </form>
+                        {% else %}
+                            <tr>
+                                <th scope="row">{{ num.id }}</th>
+                                <td>{{ num.num }}</td>
+                                <td>{{ num.price }}</td>
+                                <td>{{ num.get_level_display }}</td>
+                                <td>{{ num.get_status_display }}</td>
+                                <td>
+                                    <a class="btn btn-xs btn-primary" href="/nicenum/{{ num.id }}/edit">编辑</a>
+                                    <a class="btn btn-xs btn-danger">删除</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
