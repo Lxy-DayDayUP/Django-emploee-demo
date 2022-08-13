@@ -40,3 +40,26 @@ def img_code(request):      #check_code()使用前要在项目文件中导入字
 def logout(request):
     request.session.clear()
     return redirect('/login/')
+
+def regist(request):
+    if request.method == 'GET':
+        form = loginModelForm()
+        return render(request,'regist.html',{'form':form})
+    elif request.method == 'POST':
+        form = loginModelForm(data=request.POST)
+        if form.is_valid():
+            # 先检查验证码
+            input_code = form.cleaned_data.pop('code')  # 用pop，取得code后，还能把code从cleaned_data中删除，因为后面filter要用
+            real_code = request.session.get('code')  # 生成验证码时存储在session中
+            if input_code != real_code:
+                form.add_error('code', '验证码错误')
+                return render(request, 'login.html', {'form': form})
+            #检查用户是否存在
+            print(form.cleaned_data)
+            exit = models.Admin.objects.filter(username=form.cleaned_data['username']).first()
+            if exit:
+                form.add_error('username','用户名已存在')
+                return render(request, 'login.html', {'form': form})
+            else:
+                models.Admin.objects.create(**form.cleaned_data)
+                return HttpResponse('注册成功')

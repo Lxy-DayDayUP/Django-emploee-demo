@@ -43,6 +43,8 @@ urlpatterns = [
     path('login/', account.login),
     path('logout/', account.logout),
     path('image/code/', account.img_code),
+    #注册
+    path('regist/', account.regist),
     #任务管理
     path('task/list/', task.task_list),
     path('task/add/', task.task_add),
